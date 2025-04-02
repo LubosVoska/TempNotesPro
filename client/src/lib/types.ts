@@ -13,6 +13,7 @@ export interface NoteFormValues {
   title: string;
   content: string;
   todos: TodoItem[];
+  tags: string[];
   expirationType: "preset" | "custom";
   expirationPreset: string;
   customDate: string;

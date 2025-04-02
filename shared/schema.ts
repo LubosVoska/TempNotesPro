@@ -23,6 +23,7 @@ export const noteSchema = z.object({
   content: z.string().optional(),
   createdAt: z.number(),
   expiresAt: z.number(),
+  tags: z.array(z.string()).default([]),
   todos: z.array(
     z.object({
       id: z.string(),

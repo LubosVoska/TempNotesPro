@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Pencil, Trash2, Tag } from "lucide-react";
 import { Note } from "@/lib/types";
 import { TodoList } from "./todo-list";
 import { ExpirationBadge } from "./expiration-badge";
@@ -97,6 +98,21 @@ export function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
             todos={note.todos} 
             onToggle={handleTodoToggle} 
           />
+        )}
+        
+        {note.tags && note.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-3 mb-2">
+            {note.tags.map((tag, index) => (
+              <Badge 
+                key={index} 
+                variant="outline"
+                className="px-2 py-0.5 text-xs flex items-center gap-1"
+              >
+                <Tag className="h-3 w-3" />
+                {tag}
+              </Badge>
+            ))}
+          </div>
         )}
         
         <ExpirationBadge expiresAt={note.expiresAt} />

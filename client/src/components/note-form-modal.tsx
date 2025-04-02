@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { X, Plus } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { X, Plus, Tag } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,6 +25,7 @@ const formSchema = z.object({
       completed: z.boolean(),
     })
   ),
+  tags: z.array(z.string()).default([]),
   expirationType: z.enum(["preset", "custom"]),
   expirationPreset: z.string().optional(),
   customDate: z.string().optional(),
@@ -46,6 +48,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
       title: "",
       content: "",
       todos: [],
+      tags: [],
       expirationType: "preset",
       expirationPreset: "1 day",
       customDate: format(new Date(), "yyyy-MM-dd"),
@@ -56,6 +59,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
   // Watch form values
   const expirationType = watch("expirationType");
   const todos = watch("todos");
+  const tags = watch("tags");
   
   // Set form values when editing a note
   useEffect(() => {
@@ -64,6 +68,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
         title: editingNote.title,
         content: editingNote.content || "",
         todos: editingNote.todos || [],
+        tags: editingNote.tags || [],
         expirationType: "preset", // Default to preset
         expirationPreset: "1 day", // Default preset
         customDate: format(new Date(editingNote.expiresAt), "yyyy-MM-dd"),
@@ -74,6 +79,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
         title: "",
         content: "",
         todos: [],
+        tags: [],
         expirationType: "preset",
         expirationPreset: "1 day",
         customDate: format(new Date(), "yyyy-MM-dd"),
@@ -129,6 +135,9 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
     // Filter out empty todo items
     const filteredTodos = data.todos.filter(todo => todo.text.trim() !== "");
     
+    // Filter out empty tags
+    const filteredTags = data.tags.filter(tag => tag.trim() !== "");
+    
     if (editingNote) {
       // Update existing note
       updateNote({
@@ -136,6 +145,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
         title: data.title,
         content: data.content,
         todos: filteredTodos.length > 0 ? filteredTodos : undefined,
+        tags: filteredTags,
         expiresAt,
       });
     } else {
@@ -144,6 +154,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
         title: data.title,
         content: data.content,
         todos: filteredTodos.length > 0 ? filteredTodos : undefined,
+        tags: filteredTags,
         expiresAt,
       });
     }
@@ -198,6 +209,62 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
                 />
               )}
             />
+          </div>
+          
+          {/* Tags */}
+          <div className="space-y-2">
+            <Label htmlFor="tags">Tags</Label>
+            <div className="flex items-center space-x-2">
+              <div className="relative flex-grow">
+                <Tag className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  id="tag-input"
+                  placeholder="Add tags (comma separated)"
+                  className="pl-8"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ',') {
+                      e.preventDefault();
+                      const input = e.currentTarget;
+                      const value = input.value.trim();
+                      
+                      if (value && !tags.includes(value)) {
+                        setValue("tags", [...tags, value]);
+                        input.value = '';
+                      }
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const value = e.currentTarget.value.trim();
+                    if (value && !tags.includes(value)) {
+                      setValue("tags", [...tags, value]);
+                      e.currentTarget.value = '';
+                    }
+                  }}
+                />
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mt-2">
+              {tags.map((tag, index) => (
+                <Badge 
+                  key={index} 
+                  variant="secondary"
+                  className="px-2 py-1 flex items-center gap-1 text-xs"
+                >
+                  {tag}
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      setValue("tags", tags.filter((_, i) => i !== index));
+                    }}
+                    className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 rounded-full"
+                  >
+                    <X className="h-3 w-3" />
+                    <span className="sr-only">Remove tag</span>
+                  </button>
+                </Badge>
+              ))}
+            </div>
           </div>
           
           {/* Todo Items */}
