@@ -1,4 +1,4 @@
-import { Clock, AlarmClock } from "lucide-react";
+import { Clock, AlarmClock, Infinity as InfinityIcon } from "lucide-react";
 import { formatExpiration } from "@/lib/store";
 
 interface ExpirationBadgeProps {
@@ -6,7 +6,7 @@ interface ExpirationBadgeProps {
 }
 
 export function ExpirationBadge({ expiresAt }: ExpirationBadgeProps) {
-  const { text, isExpiringSoon } = formatExpiration(expiresAt);
+  const { text, isExpiringSoon, neverExpires } = formatExpiration(expiresAt);
 
   return (
     <div
@@ -16,7 +16,14 @@ export function ExpirationBadge({ expiresAt }: ExpirationBadgeProps) {
           : "text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-800"
       }`}
     >
-      {isExpiringSoon ? (
+      {neverExpires ? (
+        <>
+          <InfinityIcon className="h-3 w-3" />
+          <span>
+            Never expires
+          </span>
+        </>
+      ) : isExpiringSoon ? (
         <>
           <AlarmClock className="h-3 w-3" />
           <span>

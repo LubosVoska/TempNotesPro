@@ -77,15 +77,28 @@ export const calculateExpirationFromPreset = (preset: string): number => {
       return addDays(now, 7).getTime();
     case "1 month":
       return addMonths(now, 1).getTime();
+    case "Never expire":
+      // Use a very distant future date (100 years from now)
+      return addMonths(now, 1200).getTime(); // 100 years
     default:
       return addDays(now, 1).getTime(); // Default to 1 day
   }
 };
 
 // Format expiration time for display
-export const formatExpiration = (expiresAt: number): { text: string; isExpiringSoon: boolean } => {
+export const formatExpiration = (expiresAt: number): { text: string; isExpiringSoon: boolean; neverExpires: boolean } => {
   const now = new Date();
   const expirationDate = new Date(expiresAt);
+  
+  // Check if this is a "Never expire" note (100 years in the future)
+  const yearsInFuture = (expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24 * 365);
+  if (yearsInFuture > 99) {
+    return {
+      text: "Never",
+      isExpiringSoon: false,
+      neverExpires: true
+    };
+  }
   
   // Check if expiring in less than 24 hours
   const isExpiringSoon = expirationDate.getTime() - now.getTime() < 24 * 60 * 60 * 1000;
@@ -95,13 +108,15 @@ export const formatExpiration = (expiresAt: number): { text: string; isExpiringS
     // Less than 2 days, show relative time
     return {
       text: formatDistanceToNow(expirationDate, { addSuffix: false }),
-      isExpiringSoon
+      isExpiringSoon,
+      neverExpires: false
     };
   } else {
     // More than 2 days, show date and time
     return {
       text: format(expirationDate, "EEE, MMM d, h:mm a"),
-      isExpiringSoon
+      isExpiringSoon,
+      neverExpires: false
     };
   }
 };

@@ -14,7 +14,7 @@ interface NoteCardProps {
 }
 
 export function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
-  const { isExpiringSoon } = formatExpiration(note.expiresAt);
+  const { isExpiringSoon, neverExpires } = formatExpiration(note.expiresAt);
   
   const handleTodoToggle = (todoId: string, completed: boolean) => {
     if (!note.todos) return;
@@ -34,7 +34,9 @@ export function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
       className={`note-card overflow-hidden transition-all hover:shadow-md hover:-translate-y-0.5 ${
         isExpiringSoon
           ? "border-orange-200 dark:border-orange-900/40"
-          : "border-gray-200 dark:border-gray-800"
+          : neverExpires
+            ? "border-primary-200 dark:border-primary-900/40"
+            : "border-gray-200 dark:border-gray-800"
       }`}
     >
       <CardContent className="p-4">

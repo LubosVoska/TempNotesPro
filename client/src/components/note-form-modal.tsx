@@ -257,7 +257,7 @@ export function NoteFormModal({ open, onOpenChange, editingNote }: NoteFormModal
             
             {/* Default expiration options */}
             <div className="flex flex-wrap gap-2">
-              {["1 hour", "6 hours", "1 day", "3 days", "1 week", "1 month"].map((preset) => (
+              {["1 hour", "6 hours", "1 day", "3 days", "1 week", "1 month", "Never expire"].map((preset) => (
                 <Button
                   key={preset}
                   type="button"
