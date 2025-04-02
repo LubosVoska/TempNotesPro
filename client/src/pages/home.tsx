@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { NoteCard } from "@/components/note-card";
 import { EmptyState } from "@/components/empty-state";
 import { NoteFormModal } from "@/components/note-form-modal";
+import { GoogleAdSense } from "@/components/google-adsense";
 import { useToast } from "@/hooks/use-toast";
 import { getNotes, deleteNote } from "@/lib/store";
 import { Note } from "@/lib/types";
@@ -191,6 +192,16 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 py-6">
+        {/* Top AdSense Banner */}
+        <div className="mb-6">
+          <GoogleAdSense 
+            slot="1234567890" 
+            format="horizontal" 
+            style={{ minHeight: "90px" }}
+            className="mx-auto rounded-md overflow-hidden border border-gray-200 dark:border-gray-800"
+          />
+        </div>
+
         {notes.length === 0 ? (
           <EmptyState onCreateNote={handleCreateNote} />
         ) : filteredNotes.length === 0 ? (
@@ -205,18 +216,42 @@ export default function Home() {
             <Button variant="outline" onClick={clearFilters}>
               Clear all filters
             </Button>
+            
+            {/* Empty Search Results AdSense */}
+            <div className="max-w-md mx-auto mt-8">
+              <GoogleAdSense 
+                slot="6543219870" 
+                format="rectangle" 
+                style={{ minHeight: "250px" }}
+                className="mx-auto rounded-md overflow-hidden border border-gray-200 dark:border-gray-800"
+              />
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredNotes.map((note) => (
-              <NoteCard
-                key={note.id}
-                note={note}
-                onEdit={handleEditNote}
-                onDelete={handleDeleteNote}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredNotes.map((note) => (
+                <NoteCard
+                  key={note.id}
+                  note={note}
+                  onEdit={handleEditNote}
+                  onDelete={handleDeleteNote}
+                />
+              ))}
+            </div>
+
+            {/* Bottom AdSense Banner */}
+            {filteredNotes.length > 3 && (
+              <div className="mt-8">
+                <GoogleAdSense 
+                  slot="9876543210" 
+                  format="horizontal" 
+                  style={{ minHeight: "90px" }}
+                  className="mx-auto rounded-md overflow-hidden border border-gray-200 dark:border-gray-800"
+                />
+              </div>
+            )}
+          </>
         )}
       </main>
 
