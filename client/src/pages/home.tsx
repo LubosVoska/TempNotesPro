@@ -8,6 +8,8 @@ import { NoteCard } from "@/components/note-card";
 import { EmptyState } from "@/components/empty-state";
 import { NoteFormModal } from "@/components/note-form-modal";
 import { GoogleAdSense } from "@/components/google-adsense";
+import { DynamicTitle } from "@/components/dynamic-title";
+import { JsonLd } from "@/components/json-ld";
 import { useToast } from "@/hooks/use-toast";
 import { getNotes, deleteNote } from "@/lib/store";
 import { Note } from "@/lib/types";
@@ -113,6 +115,32 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <DynamicTitle 
+        title="Home" 
+        description="Create temporary notes with customizable expiration times, todo lists, and tagging for better organization. Your data stays in your browser for privacy."
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "TempNotes",
+          "description": "Create temporary notes with customizable expiration times, todo lists, and tagging for better organization. Your data stays in your browser for privacy.",
+          "applicationCategory": "Productivity",
+          "operatingSystem": "Any",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Temporary notes with expiration times",
+            "Todo lists within notes",
+            "Tag-based organization",
+            "Dark and light themes",
+            "Privacy-focused with browser storage only"
+          ]
+        }}
+      />
       {/* Header */}
       <header className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3 flex flex-col gap-2">

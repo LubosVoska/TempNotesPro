@@ -1,0 +1,11 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#f8f9fa"/>
+  <rect x="100" y="100" width="1000" height="430" rx="15" fill="#4c1d95" opacity="0.05"/>
+  <text x="600" y="270" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#4c1d95" text-anchor="middle">TempNotes</text>
+  <text x="600" y="350" font-family="Arial, sans-serif" font-size="36" fill="#6b7280" text-anchor="middle">Create temporary notes with</text>
+  <text x="600" y="400" font-family="Arial, sans-serif" font-size="36" fill="#6b7280" text-anchor="middle">custom expiration times</text>
+  <path d="M420 230v130a10 10 0 0 0 10 10h340a10 10 0 0 0 10-10V270L710 230H430a10 10 0 0 0-10 10z" stroke="#4c1d95" stroke-width="8" opacity="0.7" fill="none"/>
+  <line x1="450" y1="290" x2="750" y2="290" stroke="#4c1d95" stroke-width="6" opacity="0.7"/>
+  <line x1="450" y1="330" x2="750" y2="330" stroke="#4c1d95" stroke-width="6" opacity="0.7"/>
+  <line x1="480" y1="250" x2="700" y2="250" stroke="#4c1d95" stroke-width="6" opacity="0.7"/>
+</svg>

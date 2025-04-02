@@ -10,10 +10,10 @@ interface GoogleAdSenseProps {
 
 // Dynamically load the AdSense script
 const loadAdSenseScript = () => {
-  const googleAdsenseId = import.meta.env.GOOGLE_ADSENSE_ID || "";
+  const googleAdsenseId = import.meta.env.VITE_GOOGLE_ADSENSE_ID || "";
   
   if (!googleAdsenseId) {
-    console.warn("Google AdSense ID is missing. Please set the GOOGLE_ADSENSE_ID environment variable.");
+    console.warn("Google AdSense ID is missing. Please set the VITE_GOOGLE_ADSENSE_ID environment variable.");
     return;
   }
   
@@ -48,10 +48,10 @@ export function GoogleAdSense({
     try {
       // Add ad only if not already added
       if (adRef.current && adRef.current.innerHTML === "") {
-        const googleAdsenseId = import.meta.env.GOOGLE_ADSENSE_ID || "";
+        const googleAdsenseId = import.meta.env.VITE_GOOGLE_ADSENSE_ID || "";
         
         if (!googleAdsenseId) {
-          console.warn("Google AdSense ID is missing. Please set the GOOGLE_ADSENSE_ID environment variable.");
+          console.warn("Google AdSense ID is missing. Please set the VITE_GOOGLE_ADSENSE_ID environment variable.");
           return;
         }
         
